@@ -50,13 +50,3 @@ using yarn :
 yarn build
 ```
 
-## Open Contribute
-
-This repository ready to contribute
-
-##### Contribute Guide
-
-- Fork this repository
-- `npm install` or `yarn install`
-- make change
-- open pull request

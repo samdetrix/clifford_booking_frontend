@@ -6,11 +6,22 @@
       <table
         class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400"
       >
+      <div>
+        <!-- Error Flash Message -->
+        <div v-if="errorFlash" class="bg-red-500 text-white p-4 mb-4 rounded">
+          <p>{{ errorFlash }}</p>
+        </div>
+    
+        <!-- Success Flash Message -->
+        <div v-if="successFlash" class="bg-green-500 text-white p-4 mb-4 rounded">
+          <p>{{ successFlash }}</p>
+        </div>
+      </div>
         <thead
           class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400"
         >
           <tr>
-            <th scope="col" class="px-6 py-3">Product name</th>
+            <th scope="col" class="px-6 py-3">Name</th>
             <th scope="col" class="px-6 py-3">Description</th>
             <th scope="col" class="px-6 py-3">Standard Rack Rate</th>
             <th scope="col" class="px-6 py-3">Status</th>
@@ -76,7 +87,7 @@
                   Edit
                 </button>
               </router-link>
-             
+
               <button
                 @click.prevent="deleteAccommodation(accommodation.id)"
                 class="inline-block bg-red-500 text-white py-1 px-2 rounded-full text-xs font-medium mr-2 hover:bg-red-700"
@@ -98,6 +109,8 @@ export default {
   data() {
     return {
       accommodations: { data: { accommodations: [] } },
+      errorFlash: null,
+      successFlash: null,
     };
   },
   mounted() {

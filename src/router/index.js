@@ -8,6 +8,11 @@ import Register from "../views/layouts/auth/Register.vue";
 import Valert from "../views/components/accomodations.vue";
 import ViewAccommodation from "../views/ViewAccommodation.vue";
 import EditAccommodation from "../views/EditAccommodation.vue";
+import AddAccommodation from "../views/AddAccommodation.vue";
+import Contract from "../views/Contracts/Contracts.vue";
+import EditContract from "../views/Contracts/EditContract";
+import ViewContract from "../views/Contracts/ViewContract";
+import AddContract from "../views/Contracts/AddContract";
 
 var appname = " - Booking App";
 
@@ -23,14 +28,22 @@ const routes = [
     path: "/dashboard",
     name: "Dashboard",
     component: Dashboard,
-    meta: { title: "Dashboard " + appname, requiresAuth: true },
+    meta: { title: "Dashboard " + appname },
   },
   {
     path: "/accomodation",
     name: "Valert",
     component: Valert,
-    meta: { title: "Accomodations" + appname, requiresAuth: true },
+    meta: { title: "Accomodations" + appname },
   },
+
+  {
+    path: "/add-accomodation",
+    name: "AddAccomodation",
+    component: AddAccommodation,
+    meta: { title: "Add Accomodation" + appname },
+  },
+  
   {
     path: "/view-accommodation/:id",
     name: "ViewAccommodation",
@@ -43,6 +56,32 @@ const routes = [
     component: EditAccommodation,
     meta: { title: "Edit Accommodation" },
   },
+
+  {
+    path: '/contracts',
+    name: "Contracts",
+    component: Contract,
+    meta:{ title: "Contracts"}
+  },
+  {
+    path: '/add-contract',
+    name: "AddContract",
+    component: AddContract,
+    meta:{ title: "Add Contract"}
+  },
+  {
+    path: "/view-contract/:id",
+    name: "ViewContract",
+    component: ViewContract,
+    meta: { title: "View Contract" },
+  },
+  {
+    path: "/edit-contract/:id",
+    name: "EditContract",
+    component: EditContract,
+    meta: { title: "Edit Contract" },
+  },
+  
 ];
 
 const router = createRouter({

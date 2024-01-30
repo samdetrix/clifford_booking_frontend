@@ -3,11 +3,7 @@
   <nav class="sidebar bg-white dark:bg-gray-800">
     <!-- sidebar head -->
     <div class="sidebar-head p-4">
-      <router-link
-        to="/"
-        exact
-        class="flex"
-      >
+      <router-link to="/" exact class="flex">
         <img
           class="w-8 mt-1"
           src="@/assets/logo/windzo-logo-dark.png"
@@ -65,31 +61,48 @@
               <template v-slot:icon>
                 <Icon icon="gg:components" />
               </template>
-              <template v-slot:title> Listing </template>
+              <template v-slot:title> Accomodations </template>
               <template v-slot:content>
                 <router-link
                   to="/accomodation"
                   class="w-full text-left block rounded-md p-3 hover:bg-gray-200 dark:hover:bg-gray-700"
                 >
-                  My Bookings
+                  All Accomodations
                 </router-link>
                 <router-link
-                  to="/component/accordion"
+                  to="/add-accomodation"
                   class="w-full text-left block rounded-md p-3 hover:bg-gray-200 dark:hover:bg-gray-700"
                 >
-                  Available Listings
+                  Add Accomodation
                 </router-link>
-                <router-link
-                  to="/component/badge"
-                  class="w-full text-left block rounded-md p-3 hover:bg-gray-200 dark:hover:bg-gray-700"
-                >
-                  Badge
-                </router-link>
-               
               </template>
             </menu-accordion>
           </div>
-          
+          <div class="item mt-3">
+            <menu-accordion>
+              <template v-slot:icon>
+                <Icon icon="ri:pages-fill" />
+              </template>
+              <template v-slot:title> Contracts </template>
+              <template v-slot:content>
+                <div class="">
+                      <router-link
+                        to="/contracts"
+                        class="w-full text-left block rounded-md p-3 hover:bg-gray-200 dark:hover:bg-gray-700"
+                      >
+                        All Contracts
+                      </router-link>
+                      <router-link
+                        to="/add-contract"
+                        class="w-full text-left block rounded-md p-3 hover:bg-gray-200 dark:hover:bg-gray-700"
+                      >
+                        Add Contracts
+                      </router-link>
+                 
+                </div>
+              </template>
+            </menu-accordion>
+          </div>
           <div class="item mt-3">
             <menu-accordion>
               <template v-slot:icon>
@@ -98,7 +111,6 @@
               <template v-slot:title> Users </template>
               <template v-slot:content>
                 <div class="">
-                 
                   <menu-accordion>
                     <template v-slot:title> Agents </template>
                     <template v-slot:content>
@@ -108,7 +120,6 @@
                       >
                         List of Agents
                       </router-link>
-                      
                     </template>
                   </menu-accordion>
                   <menu-accordion>
@@ -120,7 +131,6 @@
                       >
                         Users
                       </router-link>
-                      
                     </template>
                   </menu-accordion>
                 </div>
@@ -129,18 +139,17 @@
           </div>
         </div>
       </div>
-      
     </div>
   </nav>
 </template>
 
 <script>
-  import { Icon } from "@iconify/vue";
-  import MenuAccordion from "./MenuAccordion.vue";
-  export default {
-    components: {
-      Icon,
-      MenuAccordion,
-    },
-  };
+import { Icon } from "@iconify/vue";
+import MenuAccordion from "./MenuAccordion.vue";
+export default {
+  components: {
+    Icon,
+    MenuAccordion,
+  },
+};
 </script>

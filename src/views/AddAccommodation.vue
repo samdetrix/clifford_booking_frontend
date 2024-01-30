@@ -8,12 +8,18 @@
           <form class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
             <div>
               <!-- Error Flash Message -->
-              <div v-if="errorFlash" class="bg-red-500 text-white p-4 mb-4 rounded">
+              <div
+                v-if="errorFlash"
+                class="bg-red-500 text-white p-4 mb-4 rounded"
+              >
                 <p>{{ errorFlash }}</p>
               </div>
-          
+
               <!-- Success Flash Message -->
-              <div v-if="successFlash" class="bg-green-500 text-white p-4 mb-4 rounded">
+              <div
+                v-if="successFlash"
+                class="bg-green-500 text-white p-4 mb-4 rounded"
+              >
                 <p>{{ successFlash }}</p>
               </div>
             </div>
@@ -29,11 +35,12 @@
                     Name
                   </label>
                   <input
-                    v-model="selectedAccommodation.name"
+                    v-model="name"
                     class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                     id="name"
                     type="text"
-                    placeholder="Luxury Suite"
+                    required
+                    placeholder="Enter Name"
                   />
                 </div>
               </div>
@@ -49,11 +56,11 @@
                     Standard Rack Rate
                   </label>
                   <input
-                    v-model="selectedAccommodation.standard_rack_rate"
+                    v-model="standard_rack_rate"
                     class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                     id="standardRackRate"
                     type="number"
-                    placeholder="250.00"
+                    placeholder="Rack rate"
                   />
                 </div>
               </div>
@@ -69,7 +76,7 @@
                     Status
                   </label>
                   <select
-                    v-model="selectedAccommodation.status"
+                    v-model="status"
                     class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                     id="status"
                   >
@@ -91,11 +98,11 @@
                     Capacity
                   </label>
                   <input
-                    v-model="selectedAccommodation.capacity"
+                    v-model="capacity"
                     class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                     id="capacity"
                     type="number"
-                    placeholder="2"
+                    placeholder="capacity"
                   />
                 </div>
               </div>
@@ -111,7 +118,7 @@
                     Wi-Fi Availability
                   </label>
                   <input
-                    v-model="selectedAccommodation.is_wifi_available"
+                    v-model="is_wifi_available"
                     class="mr-2"
                     id="wifiAvailability"
                     type="checkbox"
@@ -126,7 +133,7 @@
                     Parking Availability
                   </label>
                   <input
-                    v-model="selectedAccommodation.is_parking_available"
+                    v-model="is_parking_available"
                     class="mr-2"
                     id="parkingAvailability"
                     type="checkbox"
@@ -151,24 +158,43 @@
                     Description
                   </label>
                   <textarea
-                    v-model="selectedAccommodation.description"
+                    v-model="description"
                     class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                     id="description"
                     rows="4"
-                    placeholder="Spacious suite with a stunning view"
+                    placeholder="Description"
+                    required
+                  ></textarea>
+                </div>
+              </div>
+              <div class="col-span-3">
+                <!-- Description -->
+                <div class="mb-4">
+                  <label
+                    class="block text-gray-700 text-sm font-bold mb-2"
+                    for="amenities"
+                  >
+                    Amenities
+                  </label>
+                  <textarea
+                    v-model="amenities"
+                    class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                    id="amenities"
+                    required
+                    rows="4"
+                    placeholder="Amenities"
                   ></textarea>
                 </div>
               </div>
             </div>
-
             <!-- Submit Button -->
             <div class="flex items-center justify-between">
               <button
-                @click.prevent="updateAccommodation"
+                @click.prevent="createAccommodation"
                 class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
                 type="submit"
               >
-                Update Accommodation
+                Create Accommodation
               </button>
             </div>
           </form>
@@ -184,74 +210,48 @@ import axios from "axios";
 export default {
   data() {
     return {
-      selectedAccommodation: {},
-      errorFlash: null,
-      successFlash: null,
+      name: "",
+      standard_rack_rate: 0,
+      status: "available",
+      is_wifi_available: false,
+      is_parking_available: false,
+      capacity: 0,
+      description: "",
+      amenities: "",
+
+      errorFlash: "",
+      successFlash: "",
     };
   },
-  mounted() {
-    this.fetchSelectedAccommodation();
-  },
   methods: {
-    async fetchSelectedAccommodation() {
-      try {
-        const accommodationId = this.$route.params.id;
-        const response = await axios.get(
-          `http://127.0.0.1:8000/api/accommodations/${accommodationId}`
-        );
-        console.log(response.data);
-        this.selectedAccommodation = response.data.accommodation;
-      } catch (error) {
-        console.error("Error fetching selected accommodation:", error);
-      }
-    },
-    getStatusBadgeClass(status) {
-      return {
-        "bg-green-500": status === "available",
-        "bg-yellow-500": status === "maintenance",
-        "bg-red-500": status === "booked",
-        "text-white": true,
-        "px-2": true,
-        "py-1": true,
-        "rounded-full": true,
-        "text-xs": true,
-        "mr-2": true,
+    createAccommodation() {
+      const user_id = localStorage.getItem("user_id");
+
+      const postData = {
+        name: this.name,
+        standard_rack_rate: this.standard_rack_rate,
+        status: this.status,
+        capacity: this.capacity,
+        is_wifi_available: this.is_wifi_available,
+        is_parking_available: this.is_parking_available,
+        description: this.description,
+        amenities: this.amenities,
+        created_by: user_id ? parseInt(user_id) : null,
       };
-    },
-    async updateAccommodation() {
-      try {
-        const response = await axios.put(
-          `http://127.0.0.1:8000/api/accommodations/${this.selectedAccommodation.id}`,
-          this.selectedAccommodation
-        );
+      console.log(postData);
 
-        console.log("Accommodation updated successfully:", response.data);
-
-        if (response.data.status === "success") {
-          // Success Flash
-          this.$router.push({
-            name: "Valert",
-            query: { successFlash: response.data.message },
-          });
-        } else {
-          // Error Flash
-          this.$toast.error(response.data.message, {
-            position: "bottom-center",
-          });
-        }
-      } catch (error) {
-        console.error("Error updating accommodation:", error);
-
-        // Error Flash
-        this.$toast.error(error.response.data.message, {
-          position: "bottom-center",
+      axios
+        .post("http://127.0.0.1:8000/api/accommodations/", postData)
+        .then((response) => {
+          this.successFlash = "Accommodation created successfully!";
+          this.$router.push({ name: "Valert" });
+        })
+        .catch((error) => {
+          this.errorFlash = "Error creating accommodation: " + error.message;
         });
-      }
     },
   },
 };
 </script>
 
-<style scoped>
-/* Add your component-specific styles here */
-</style>
+<style scoped></style>

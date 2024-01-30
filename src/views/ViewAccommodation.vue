@@ -153,7 +153,7 @@ export default {
   methods: {
     async fetchSelectedAccommodation() {
       try {
-        const accommodationId = this.$route.params.id; // Get the ID from the route params
+        const accommodationId = this.$route.params.id; 
         const response = await axios.get(
           `http://127.0.0.1:8000/api/accommodations/${accommodationId}`
         );
@@ -164,7 +164,6 @@ export default {
       }
     },
     getStatusBadgeClass(status) {
-      // Example: Apply badges based on status
       return {
         "bg-green-500": status === "available",
         "bg-yellow-500": status === "maintenance",
